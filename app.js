@@ -1,4 +1,5 @@
-// Importar el módulo HTTP de Node.js
+// Importar el módulo HTTP de Node.js v1.0
+
 const http = require('http');
 
 // Crear un servidor HTTP
