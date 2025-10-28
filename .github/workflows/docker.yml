@@ -23,8 +23,8 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
-        script:
-          # install docker
+        script: |
+          echo "== Checking Docker installation on EC2 =="
           if ! command -v docker &> /dev/null
           then
             echo "Installing Docker..."
@@ -34,6 +34,8 @@ jobs:
             sudo systemctl start docker
             sudo usermod -aG docker ubuntu
             echo "Docker installed correctly."
+          else
+            echo "Docker already installed."
           fi
 
           docker pull ${{ secrets.DOCKER_USERNAME }}/my-node-app
