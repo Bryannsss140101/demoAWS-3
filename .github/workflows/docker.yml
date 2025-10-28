@@ -23,7 +23,19 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
+        script:
+          # install docker
+          if ! command -v docker &> /dev/null
+          then
+            echo "Installing Docker..."
+            sudo apt update -y
+            sudo apt install -y docker.io
+            sudo systemctl enable docker
+            sudo systemctl start docker
+            sudo usermod -aG docker ubuntu
+            echo "Docker installed correctly."
+          fi
+
           docker pull ${{ secrets.DOCKER_USERNAME }}/my-node-app
           docker stop my-node-app || true
           docker rm my-node-app || true
